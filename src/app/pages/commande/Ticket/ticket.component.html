@@ -1,0 +1,68 @@
+<!--modal-->
+<button  style="font-size: 12px!important;
+                                color: white!important;
+                                border-radius: 4px!important" (click)="modal.open();validateCommande()" type="button" class="btn btn-success btn-sm col-lg-12 col-md-12 col-sm-12 col-xs-12">Valider la commande</button>
+
+<modal #modal>
+        <modal-content>
+                <div class="modal-body" style="border: 1px dashed;margin: 20px;">
+                        <section id="print">
+                        <div style="margin: auto;text-align: center;">
+                            <p class="font-ticket">*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-</p>
+                            <p class="font-ticket">Logo</p>
+                            <p class="font-ticket" >rue du 20 Août 1955 Skikda 21000</p>
+                            <p class="font-ticket" >tél : 0773136219</p>
+                            <p class="font-ticket">*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-</p>
+                        </div>
+                        <div style="text-align: left;">
+                            <p class="font-ticket" style="display: inline-block;">Agence : agence Adam</p> <span style="float: right;font-family: ticket">{{ticket.date | date:'yyyy-MM-dd hh:mm:ss'}}</span>
+                            <p class="font-ticket" >Ticket : 124JHO</p>
+                        </div>
+                        <p class="font-ticket" style="font-size: 12px;margin: auto;text-align: center;">
+                            *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+                        </p>
+                        
+                        <footer class="font-ticket">
+                                <div>
+                                    <table class="table borderless" style="margin-bottom: 0px!important">
+                                        <thead>
+                                            <tr>
+                                                <th>QTE</th>
+                                                <th>Produit</th>
+                                                <th>Unite</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of ticket.listeProducts | keyvalue" style="color: black">
+                                                <td>{{item.value.quantite}}</td>
+                                                <td>{{item.value.libelle}}</td>
+                                                <td>{{item.value.prixInitial}}</td>
+                                                <td>{{item.value.prixToTal}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <hr>
+                                    <p style="text-align: center;">Sous-Total: {{ticket.totalTicket}} DA</p>
+                                </div>
+                        </footer>
+                        </section>
+                        <div class="card" style="padding-bottom: 0px;">
+                                <div id="pay-invoice" style="padding-bottom: 23px;">
+                                        <div class="card-body" >
+                                                <div class="col-6" style="margin: auto;">
+                                                    <button (click)="imprimer(modal)" style="color: white;" type="button" class="btn btn-lg btn-success btn-block">
+                                                          <i class="fa fa-check  fa-lg"></i>&nbsp;
+                                                          <span id="payment-button-amount">IMPRIMER</span>
+                                                    </button>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div> <!-- .card -->
+                </div>
+        </modal-content>
+        <modal-footer>
+          <button class="btn btn-primary" (click)="closeModal(modal)">close</button>
+        </modal-footer>
+</modal>
+      

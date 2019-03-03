@@ -8,17 +8,23 @@ import { SharedModule } from '../shared/shared.module';
 /* components */
 import { PagesComponent } from './pages.component';
 import { LoginComponent } from './login/login.component';
+import { LoginService } from './login/login.service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
         CommonModule,
-        LayoutModule,
+        FormsModule,
         SharedModule,
+        LayoutModule,
         routing
     ],
     declarations: [
         PagesComponent,
         LoginComponent
+    ],
+    providers :[
+        LoginService
     ]
 })
 export class PagesModule { }

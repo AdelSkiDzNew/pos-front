@@ -1,0 +1,47 @@
+<div class="card card-block animated fadeIn row">
+        <div class="col-md-6" [ngClass]="{'col-md-6': file != undefined, 'col-md-12': file == undefined}">
+          <form #nouveauProduitForm="ngForm" [formGroup]="settingsForm" (ngSubmit)="submitForm();">
+          <card cardTitle="Informations sur le produit" isCollapse="true">
+            <div class="form-group">
+              <label class="control-label" [ngClass]="{'error':forms.nomProduit.errors?.required && !settingsForm.valid,'succes':!forms.nomProduit.errors?.required}">Nom Produit</label>
+              <input formControlName="nomProduit"  type="text" class="form-control" placeholder="Nom Produit">
+              <label class="control-label" [ngClass]="{'error':forms.prixInitialProduct.errors?.required && !settingsForm.valid,'succes':!forms.prixInitialProduct.errors?.required}">Prix</label>
+              <input formControlName="prixInitialProduct" myNumberOnly type="text" class="form-control" placeholder="Prix">
+              <br>
+              <input #fileInput type="file"  (change)="upload($event)" placeholder="Upload file" id="file" accept=".png, .jpg, .jpeg" class="custom-file-input">
+              <label class="custom-file-label" for="customFile"><span style="color:red" *ngIf="file === undefined">{{errors}}</span></label>
+              <br>
+              <file-drop  headertext="."  (onFileDrop)="dropped($event)"
+                  (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+                      <span> {{titleDrop}}</span>
+              </file-drop>
+              <br>
+              <label [ngClass]="{'error':forms.nomCategorie.errors?.required && !settingsForm.valid,'succes':!forms.nomCategorie.errors?.required}" class="control-label">Sélectionnez une catégorie ou créée une nouvelle</label>
+              <input  formControlName="nomCategorie" type="text" class="form-control" list="cars"/>
+              <datalist id="cars">
+                <option *ngFor="let item of listeCategie">{{item.nomCategorie}}</option>
+              </datalist>
+              <br>
+              <button  style="font-size: 12px!important;
+                                color: white!important;
+                                border-radius: 4px!important"  type="submit" 
+                                class="btn btn-success btn-sm col-lg-5 col-md-5 col-sm-5 col-xs-5">Ajouter le Produit</button>
+               <button  style="font-size: 12px!important;
+                                color: white!important;
+                                border-radius: 4px!important" (click)="reset();" type="button" 
+                                class="btn btn-danger btn-sm col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-right">Réinitialiser</button>
+              
+
+            </div>
+          </card>
+        </form>
+        </div>
+          <div class="col-md-6" *ngIf="file != undefined">
+            <card cardTitle="Votre image a bien été chargée" isCollapse="true">
+              <div class="form-group">
+                  <img *ngIf="url !== undefined " [src]="url" height="372">
+                  <p>{{nameFile}}</p>
+              </div>
+            </card>
+          </div>
+</div>

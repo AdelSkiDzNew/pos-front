@@ -1,0 +1,17 @@
+
+// problème modal
+.modal-backdrop { display: none!important; }
+// problème categories menu tabs
+.tabs-body {
+    padding-bottom: 0px!important;
+    padding-right: 5px;
+    padding-left: 5px;
+    border: none!important;
+}
+
+.error {
+    color: red;
+}
+.succes {
+    color: green;
+}

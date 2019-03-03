@@ -1,0 +1,32 @@
+<footer class="twt-footer">
+        <div *ngIf="this.selectedListeProducts.size > 0">
+            <table class="table" style="margin-bottom: 0px!important">
+                <tr>
+                    <th>QTE</th>
+                    <th>Produit</th>
+                    <th>Unite</th>
+                    <th>Total</th>
+                    <th>Sup</th>
+                </tr>
+                <tr *ngFor="let item of selectedListeProducts | keyvalue" style="color: black">
+                    <td>{{item.value.quantite}}</td>
+                    <td>{{item.value.libelle}}</td>
+                    <td>{{item.value.prixInitial}}</td>
+                    <td>{{item.value.prixToTal}}</td>
+                    <td><a class="fa fa-trash" style="font-size: 16px;color: red;cursor: pointer;" (click)="removeProduct(item.value)"></a></td>
+                </tr>
+            </table>
+            <form>
+            <div style="padding-left: 10px">
+                <hr style="margin-top: 0px!important">
+                <span>Total : </span><span style="color: red">{{totalTicket}} DA</span>
+            </div> 
+            </form>
+        </div>
+        <div *ngIf="this.selectedListeProducts.size == 0" style="text-align: center">
+            Aucune commande en cours 
+            <br><br>
+            <span class="fa fa-shopping-basket" style="font-size: 47px"></span>
+        </div> 
+        <br>
+</footer>

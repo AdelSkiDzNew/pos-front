@@ -12,6 +12,8 @@ import { SidebarComponent } from './layouts/sidebar/sidebar.component';
 import { ContentTopComponent } from './layouts/content-top/content-top.component';
 import { PagesTopComponent } from './layouts/pages-top/pages-top.component';
 import { RightConfigComponent } from './layouts/right-config/right-config.component';
+import { InfoUserComponent } from './layouts/pages-top/info-user/info-user.component';
+import { ProfileComponent } from './layouts/pages-top/profile/profile.component';
 
 @NgModule({
     imports: [
@@ -25,19 +27,23 @@ import { RightConfigComponent } from './layouts/right-config/right-config.compon
     declarations: [
         MenuComponent,
         SidebarComponent,
-        PagesTopComponent,
         ContentTopComponent,
         NotificationComponent,
         RightConfigComponent,
-        LoadingComponent
+        LoadingComponent,
+        PagesTopComponent,
+        InfoUserComponent,
+        ProfileComponent
     ],
     exports: [
         SidebarComponent,
-        PagesTopComponent,
         ContentTopComponent,
         NotificationComponent,
         RightConfigComponent,
-        LoadingComponent
+        LoadingComponent,
+        PagesTopComponent,
+        InfoUserComponent,
+        ProfileComponent
     ]
 })
 export class LayoutModule { }

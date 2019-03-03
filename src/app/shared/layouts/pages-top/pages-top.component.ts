@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
 import { GlobalService } from '../../services/global.service';
 
 @Component({
@@ -6,16 +6,21 @@ import { GlobalService } from '../../services/global.service';
   templateUrl: './pages-top.component.html',
   styleUrls: ['./pages-top.component.scss'],
 })
-export class PagesTopComponent {
-  avatarImgSrc: string = 'assets/images/avatar.png';
-  userName: string = 'Folisise Chosielie';
-  userPost: string = 'Musician, Player';
+export class PagesTopComponent implements OnChanges {
+  avatarImgSrc: string; /*= 'assets/images/avatar.png';*/
+  userName: string; /*= 'Folisise Chosielie';*/
+  userPost: string; /*= 'Musician, Player';*/
 
 
   sidebarToggle: boolean = true;
   tip = { ring: true, email: true };
 
-  constructor(private _globalService: GlobalService) { }
+  constructor(private _globalService: GlobalService) { 
+    console.log('component top upladed');
+  }
+  ngOnChanges(nh : SimpleChanges) {
+    console.log(nh);
+  }
 
   public _sidebarToggle() {
     /* this._globalService.sidebarToggle$.subscribe(sidebarToggle => {

@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col-md-4">
+      <profile [avatarImgSrc]="avatarImgSrc" [adresse]="profileUSer.adresse"
+               [nomRestaurant]="profileUSer.nomRestaurant"
+               [userName]="profileUSer.nom" [userPost]="profileUSer.prenom">
+      </profile>
+  </div>
+  <div class="col-md-8">
+    <form #profileForm="ngForm" [formGroup]="settingsForm" (ngSubmit)="submitForm();" >
+    <div class="row card card-block">
+      <div class="col-md-6 form-group">
+        <label class="control-label" [ngClass]="{'error':forms.nom.errors?.required && !settingsForm.valid,'succes':!forms.nom.errors?.required}">Nom</label>
+        <input myLetterOnly type="text"  formControlName="nom" class="form-control" placeholder="nom">
+      </div>
+      <div class="col-md-6 form-group">
+        <label class="control-label" [ngClass]="{'error':forms.prenom.errors?.required && !settingsForm.valid,'succes':!forms.prenom.errors?.required}">Prénom</label>
+        <input type="text" formControlName="prenom" class="form-control" placeholder="Prénom">
+      </div>
+      <div class="col-md-4 form-group">
+        <label class="control-label" [ngClass]="{'error':forms.nomRestaurant.errors?.required && !settingsForm.valid,'succes':!forms.nomRestaurant.errors?.required}">Libellé Restaurant</label>
+        <input type="text" formControlName="nomRestaurant" class="form-control" placeholder="nomRestaurant">
+      </div>
+      <div class="col-md-4 form-group">
+        <label class="control-label" class="succes">N° Siret</label>
+        <input type="text" formControlName="siret" class="form-control" placeholder="numeroSiret">
+      </div>
+      <div class="col-md-4 form-group">
+        <label class="control-label" [ngClass]="{'error':forms.numeroTel.errors?.required && !settingsForm.valid,'succes':!forms.numeroTel.errors?.required}">N° Tél</label>
+        <input type="text" myNumberOnly maxlength="10" formControlName="numeroTel" class="form-control" placeholder="numeroTel">
+        <span *ngIf="forms.numeroTel.errors?.minlength" style="color: red">Le numéro n'est pas valide</span>
+      </div>
+      <div class="col-md-12 form-group">
+        <label class="control-label" [ngClass]="{'error':forms.adresse.errors?.required && !settingsForm.valid,'succes':!forms.adresse.errors?.required}">Adresse</label>
+        <input type="text"  formControlName="adresse" class="form-control" placeholder="adresse">
+      </div>
+      <div class="col-md-12 form-group">
+          <input #fileInput type="file"  (change)="upload($event)" placeholder="Upload file" id="file" accept=".png, .jpg, .jpeg" class="custom-file-input">
+          <label class="custom-file-label" for="customFile"></label>
+      </div>
+      <div class="col-md-12 form-group">
+          <file-drop  headertext="."  (onFileDrop)="dropped($event)"
+          (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+              <span> {{titleDrop}}</span>
+          </file-drop>
+      </div>
+      <div class="col-md-12">
+        <button type="submit" class="btn btn-success">Mettre à jour votre profile</button>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>

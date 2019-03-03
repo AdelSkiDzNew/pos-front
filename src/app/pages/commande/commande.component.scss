@@ -1,0 +1,14 @@
+.hov-pointer:hover {
+    cursor: pointer;
+}
+
+.hov-pointer div img {
+	-webkit-transform: scale(1);
+	transform: scale(1);
+	-webkit-transition: .3s ease-in-out;
+	transition: .3s ease-in-out;
+}
+.hov-pointer div:hover img {
+	-webkit-transform: scale(1.3);
+	transform: scale(1.3);
+}

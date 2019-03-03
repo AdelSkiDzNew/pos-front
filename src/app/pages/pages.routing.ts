@@ -1,6 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 import { PagesComponent } from './pages.component';
 import { LoginComponent } from './login/login.component';
+import { AuthGuard } from '../shared/auth-guard/AuthGuard';
 
 export const childRoutes: Routes = [
     {
@@ -13,9 +14,9 @@ export const childRoutes: Routes = [
         children: [
             { path: '', redirectTo: 'index', pathMatch: 'full' },
             { path: 'index', loadChildren: './index/index.module#IndexModule' },
-            { path: 'editor', loadChildren: './editor/editor.module#EditorModule' },
-            { path: 'icon', loadChildren: './icon/icon.module#IconModule' },
-            { path: 'profile', loadChildren: './profile/profile.module#ProfileModule' },
+            { path: 'nouvelle-commande',canActivate: [AuthGuard], loadChildren: './commande/commande.module#CommandeModule' },
+            { path: 'produit', loadChildren: './produit/produit.module#ProduitModule' },
+            { path: 'profile-user', loadChildren: './profile-user/profile-user.module#ProfileUserModule' },
             { path: 'form', loadChildren: './form/form.module#FormModule' },
             { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
             { path: 'ui', loadChildren: './ui/ui.module#UIModule' },

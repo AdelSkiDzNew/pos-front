@@ -15,7 +15,8 @@ import { SwitchComponent } from './components/switch/switch.component';
 import { PellEditorComponent } from './components/pell-editor/pell-editor.component';
 import { AlertComponent } from './components/alert/alert.component';
 import { WeatherComponent } from './components/weather/weather.component';
-import { ProfileComponent } from './components/profile/profile.component';
+import { LetterOnlyDirective } from './util/directive/only-letter.directive';
+import { NumberOnlyDirective } from './util/directive/only-muber.directive';
 
 @NgModule({
   imports: [
@@ -23,9 +24,11 @@ import { ProfileComponent } from './components/profile/profile.component';
     NgxPaginationModule,
     FormsModule,
     ReactiveFormsModule,
-    JsonpModule,
+    JsonpModule
   ],
   declarations: [
+    NumberOnlyDirective,
+    LetterOnlyDirective,
     CardComponent,
     FileTreeComponent,
     TodolistComponent,
@@ -35,10 +38,11 @@ import { ProfileComponent } from './components/profile/profile.component';
     SwitchComponent,
     PellEditorComponent,
     AlertComponent,
-    WeatherComponent,
-    ProfileComponent
+    WeatherComponent
   ],
   exports: [
+    LetterOnlyDirective,
+    NumberOnlyDirective,
     CardComponent,
     FileTreeComponent,
     TodolistComponent,
@@ -48,8 +52,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     SwitchComponent,
     PellEditorComponent,
     AlertComponent,
-    WeatherComponent,
-    ProfileComponent
+    WeatherComponent
   ]
 })
 export class SharedModule { }

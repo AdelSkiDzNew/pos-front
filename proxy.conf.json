@@ -1,0 +1,14 @@
+{
+    "/api/v1/**": {
+      "target": "http://51.38.125.168",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug"
+    },
+    "/oauth/**": {
+      "target": "http://51.38.125.168",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug"
+    }
+}

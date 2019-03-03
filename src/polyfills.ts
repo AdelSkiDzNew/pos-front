@@ -39,7 +39,8 @@
 
 /** Evergreen browsers require these. **/
 import 'core-js/es6/reflect';
-import 'core-js/es7/reflect';
+// For use with Angular 6+ and RxJS 6+ add the following line to polyfills.ts sockets
+(window as any).global = window
 
 
 /**

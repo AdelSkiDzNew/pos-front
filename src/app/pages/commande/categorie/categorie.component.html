@@ -1,0 +1,8 @@
+<div class="row">
+        <ul class="nav nav-tabs">
+                <li role="presentation" [ngClass]="{'active': item.active}" *ngFor="let item of listeCategorie">
+                    <a style="cursor: pointer" (click)="getCategorie(item)">{{item.nomCategorie}}</a>
+                </li>
+        </ul>
+</div>
+<br>

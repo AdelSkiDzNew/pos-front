@@ -1,0 +1,16 @@
+<div class="card">
+  <div class="profile-wrap animated fadeIn">
+    <div class="info-wrap">
+      <info-user [infoUseravatarImgSrc]="avatarImgSrc" [infoUserUserName]="userName" [infoUserUserPost]="userPost"></info-user>
+      <br><br><br><br>
+      <div class="map-location">
+          <br><br>
+        <p>{{nomRestaurant}}</p>
+        <i class="fa fa-map-marker"></i>
+        <span>{{adresse}}</span>
+      </div>
+    </div>
+    <div class="profile-head">
+      <img [src]="avatarImgSrc" alt="profile-head-bg" class="profile-head-bg">
+    </div>
+</div>

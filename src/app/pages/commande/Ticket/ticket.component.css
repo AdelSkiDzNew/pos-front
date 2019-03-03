@@ -1,0 +1,10 @@
+.font-ticket{
+    margin-bottom: 5px;
+    color: black;
+    font-family: ticket;
+}
+
+.borderless td, .borderless th {
+    border: none;
+    padding: 0px!important;
+}
