@@ -9,14 +9,14 @@
                         <section id="print">
                         <div style="margin: auto;text-align: center;">
                             <p class="font-ticket">*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-</p>
-                            <p class="font-ticket">Logo</p>
-                            <p class="font-ticket" >rue du 20 Août 1955 Skikda 21000</p>
-                            <p class="font-ticket" >tél : 0773136219</p>
+                            <p class="font-ticket">{{profileUser?.nomRestaurant}}</p>
+                            <p class="font-ticket" >{{profileUser?.adresse}}</p>
+                            <p class="font-ticket" >{{profileUser?.numeroTel}}</p>
                             <p class="font-ticket">*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-</p>
                         </div>
                         <div style="text-align: left;">
                             <p class="font-ticket" style="display: inline-block;">Agence : agence Adam</p> <span style="float: right;font-family: ticket">{{ticket.date | date:'yyyy-MM-dd hh:mm:ss'}}</span>
-                            <p class="font-ticket" >Ticket : 124JHO</p>
+                            <p class="font-ticket" >Ticket : {{ticket.numeroTicket}}</p>
                         </div>
                         <p class="font-ticket" style="font-size: 12px;margin: auto;text-align: center;">
                             *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*

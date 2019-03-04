@@ -60,10 +60,14 @@ export class ProfileUserService {
                                     userName : data.nom,
                                     userPost:  data.prenom,
                                     adresse : data.adresse,
-                                    nomRestaurant : data.nomRestaurant
+                                    nomRestaurant : data.nomRestaurant   
                                 }
                         }
                     })
                 );
+    }
+
+    public getCurrentProfile(): Observable<any> {
+        return this._api.GET(Constant.getProfileCurrentUser +'/'+`${localStorage.getItem('id')}`)
     }
 }

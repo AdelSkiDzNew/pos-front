@@ -7,6 +7,7 @@ import 'rxjs/add/observable/of';
 import { Categorie } from './categorie/categorie.model';
 import { CategorieService } from './categorie/categorie.service';
 import { ProduitService } from '../produit/produit.service';
+import { ProfileUSer } from '../profile-user/profile-user.model';
 
 @Component({
     selector: 'app-commande',
@@ -17,6 +18,7 @@ export class CommandeComponent implements OnInit {
 
 
     listMenu: Array<any>;
+    profileUser: ProfileUSer;
     selectedListeProducts = new Map<number, any>();
     totalTicket: number;
     ticket: Ticket = {} as Ticket;
@@ -24,12 +26,12 @@ export class CommandeComponent implements OnInit {
     constructor(private router: Router, private _categorieService: CategorieService,private _produitSerice: ProduitService) { }
 
     ngOnInit(): void {
-        this.remplirArray();
+        this.recuperationTouteLesProduits();
         this.remplireCategorie();
     }
 
 
-    remplirArray() {
+    recuperationTouteLesProduits() {
         this._produitSerice.getAllProduitByUser().subscribe(data => {
             this.listMenu = data;
             console.log('liste menu ',this.listMenu);
@@ -56,13 +58,17 @@ export class CommandeComponent implements OnInit {
         }
     }
 
+    //recuperation total ticket apres le remove
+    //la panier notife la commande
+    removeProduit(event) {
+        this.totalTicket = event;
+    }
     notifyTicket(event) {
         this.ticket.date = Date.now().toString();
         this.ticket.numeroTicket = 123333;
         this.ticket.totalTicket = this.totalTicket;
         this.ticket.listeProducts = new Map<number, any>();
         this.ticket.listeProducts = this.selectedListeProducts;
-        console.log('notify parent',event);
     }
 
     reset() {
@@ -83,7 +89,7 @@ export class CommandeComponent implements OnInit {
     }
 
     getCategorie(event) {
-        this.remplirArray();
+        this.recuperationTouteLesProduits();
         for (let index = 0; index < this.listeCategorie.length; index++) {
             if(this.listeCategorie[index].id != event.id)
             this.listeCategorie[index].active = false;

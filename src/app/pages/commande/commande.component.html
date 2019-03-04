@@ -8,14 +8,13 @@
             <div class="col-xl-4 col-lg-4">
                 <section class="card">
                     <profile></profile>
-                    <app-panier [selectedListeProducts]="selectedListeProducts" [totalTicket]="totalTicket"></app-panier>
-                    <app-ticket *ngIf="selectedListeProducts.size > 0" (notifyCommande)="notifyTicket($event)" [ticket]="ticket" (imprimerCommande)="imprimer($event);"></app-ticket>
+                    <app-panier [selectedListeProducts]="selectedListeProducts" [totalTicket]="totalTicket" (removeProduit)="removeProduit($event);"></app-panier>
+                    <app-ticket *ngIf="selectedListeProducts.size > 0" (notifyCommande)="notifyTicket($event)" [ticket]="ticket"  (imprimerCommande)="imprimer($event);"></app-ticket>
                 </section>
             </div>
 
             
             <div class="col-xl-4 col-lg-4" *ngFor="let item of listMenu">
-                {{item.pathImage}}
                 <div class="card hov-pointer">
                     <div>
                             <a (click)="selectedProduct(item)"><img style="width: 350px;height: 250px;" src="{{item.pathImage}}"></a>

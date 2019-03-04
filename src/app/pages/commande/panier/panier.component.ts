@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'app-panier',
@@ -9,6 +9,7 @@ export class PanierComponent implements OnInit {
 
     @Input () selectedListeProducts = new Map<number, any>();
     @Input () totalTicket: number;
+    @Output('removeProduit') removeProduit : EventEmitter <any> = new EventEmitter <any>();
     
     constructor() { }
 
@@ -27,6 +28,7 @@ export class PanierComponent implements OnInit {
             }
         }
         this.calculateTotal(this.selectedListeProducts);
+        this.removeProduit.emit(this.totalTicket);
     }
 
     calculateTotal(data: Map<number, any>) {
