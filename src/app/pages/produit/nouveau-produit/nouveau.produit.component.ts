@@ -85,7 +85,7 @@ export class NouveauProduitComponent implements OnInit {
         if (this.inputEl !== undefined) {
             this.inputEl.nativeElement.value = '';
         }
-        this._categorieService.getAllCategories().subscribe(data => {
+        this._categorieService.getAllCategoriesByUser().subscribe(data => {
             this.listeCategie = data;
         })
     }

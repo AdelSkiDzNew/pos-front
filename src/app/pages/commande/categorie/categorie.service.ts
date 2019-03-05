@@ -9,7 +9,7 @@ export class CategorieService {
 
     constructor(private _api: ApiService) {}
 
-    public getAllCategories(): Observable<Categorie[]> {
-        return this._api.GET(Constant.getAllCategories)
+    public getAllCategoriesByUser(): Observable<Categorie[]> {
+        return this._api.GET(Constant.getAllCategoriesByUser+'/'+localStorage.getItem('id'));
     } 
 }

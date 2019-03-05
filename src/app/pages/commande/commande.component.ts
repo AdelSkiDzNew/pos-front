@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Ticket } from './Ticket/ticket.model';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -23,7 +23,7 @@ export class CommandeComponent implements OnInit {
     totalTicket: number;
     ticket: Ticket = {} as Ticket;
     listeCategorie   = [];
-    constructor(private router: Router, private _categorieService: CategorieService,private _produitSerice: ProduitService) { }
+    constructor(private router: Router, private _activatedRouter: ActivatedRoute,private _categorieService: CategorieService,private _produitSerice: ProduitService) { }
 
     ngOnInit(): void {
         this.recuperationTouteLesProduits();
@@ -82,10 +82,8 @@ export class CommandeComponent implements OnInit {
     }
 
     remplireCategorie() {
-        this._categorieService.getAllCategories()
-            .subscribe(data => {
-                this.listeCategorie = data;
-            })
+        //@see CategorieResolver {} ../../shared/services/resolver/categorie.resolver
+        this.listeCategorie =  this._activatedRouter.snapshot.data['listeCategories'];
     }
 
     getCategorie(event) {

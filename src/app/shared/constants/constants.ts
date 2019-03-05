@@ -5,7 +5,7 @@ export enum Constant{
     baseUrl = '/api/v1',
     oauth = '/oauth/token',
     currentUser = '/getCurrentUser',
-    getAllCategories = '/categorie/findAll',
+    getAllCategoriesByUser = '/categorie/findAll/User',
     saveOrUpdateProfile = '/profile/saveOrUpdate',
     saveOrUpdateImageProfile = '/profile/saveOrUpdatePicture',
     getProfileCurrentUser = '/profile/getProfileByUser',

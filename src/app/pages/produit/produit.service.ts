@@ -16,7 +16,7 @@ export class ProduitService {
         return this._api.POST(produit,Constant.saveOrUpdateProduit)
             .pipe(
                 switchMap(resultOne => 
-                    this._api.POST(formData,Constant.uplodeFileProduit+'/'+produit.nomCategorie)
+                    this._api.POST(formData,Constant.uplodeFileProduit+'/'+produit.nomCategorie+'/'+localStorage.getItem('id'))
                     .pipe(
                         map(resultTwo => [resultOne,resultTwo])
                     )

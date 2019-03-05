@@ -29,7 +29,6 @@ import { ProduitService } from '../produit/produit.service';
         CategorieComponent
     ],
     providers : [
-        CategorieService,
         ProduitService
     ]
 })

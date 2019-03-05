@@ -2,6 +2,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PagesComponent } from './pages.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from '../shared/auth-guard/AuthGuard';
+import { CategorieResolver } from '../shared/services/resolver/categorie.resolver';
 
 export const childRoutes: Routes = [
     {
@@ -14,8 +15,15 @@ export const childRoutes: Routes = [
         children: [
             { path: '', redirectTo: 'index', pathMatch: 'full' },
             { path: 'index', loadChildren: './index/index.module#IndexModule' },
-            { path: 'nouvelle-commande',canActivate: [AuthGuard], loadChildren: './commande/commande.module#CommandeModule' },
-            { path: 'produit', loadChildren: './produit/produit.module#ProduitModule' },
+            { path: 'nouvelle-commande',
+              canActivate: [AuthGuard],
+              loadChildren: './commande/commande.module#CommandeModule',
+              resolve: { listeCategories : CategorieResolver } 
+            },
+            { path: 'produit',
+              loadChildren: './produit/produit.module#ProduitModule',
+              canActivate: [AuthGuard]
+            },
             { path: 'profile-user', loadChildren: './profile-user/profile-user.module#ProfileUserModule' },
             { path: 'form', loadChildren: './form/form.module#FormModule' },
             { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },

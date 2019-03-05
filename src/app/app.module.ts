@@ -10,6 +10,8 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { ApiService } from './shared/services/api.service';
 import { ProfileUserService } from './pages/profile-user/profile-user.service';
+import { CategorieResolver } from './shared/services/resolver/categorie.resolver';
+import { CategorieService } from './pages/commande/categorie/categorie.service';
 
 
 
@@ -30,7 +32,9 @@ import { ProfileUserService } from './pages/profile-user/profile-user.service';
   providers : [
     AuthGuard,
     ApiService,
-    ProfileUserService
+    ProfileUserService,
+    CategorieResolver,
+    CategorieService
   ],
   bootstrap: [AppComponent]
 })
