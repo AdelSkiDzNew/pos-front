@@ -1,23 +1,14 @@
 
-[![Build Status](https://travis-ci.org/bknds/ng-pi-admin.svg?branch=master)](https://travis-ci.org/bknds/ng-pi-admin)
-
-
-Default | Dark | Light
----|---|---
-![](https://raw.githubusercontent.com/bknds/ng-pi-admin/master/default.png) |![](https://raw.githubusercontent.com/bknds/ng-pi-admin/master/dark.png) | ![](https://raw.githubusercontent.com/bknds/ng-pi-admin/master/light.png)
-
-
-
 ## Based on
-Angular 4+, Angular CLI, TypeScript, Scss, Bootstrap
+Angular 7, Angular CLI, TypeScript, Scss, Bootstrap
 
 ## Demo
 
-[Live Demo](http://treesflower.com/ng-pi-admin)
+[Live Demo](http://51.38.125.168/login)
 
 ## Getting started
 ```
-git clone https://github.com/bknds/ng-pi-admin.git
+git clone git clone https://adelBoumaza@bitbucket.org/speechindex/pos-front.git
 
 npm install
 
