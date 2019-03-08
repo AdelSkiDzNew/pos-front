@@ -24,8 +24,8 @@ export class ProduitService {
             )
     }
 
-    public getAllProduitByUser(): Observable<any> {
-        return this._api.GET(Constant.getAllProduitByUser+'/'+localStorage.getItem('id'));
+    public getAllProduitByUser(idCategorie): Observable<any> {
+        return this._api.GET(Constant.getAllProduitByUser+'/'+localStorage.getItem('id')+'/'+idCategorie);
             
     }
 }

@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Ticket } from './Ticket/ticket.model';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import {  map,filter, first } from 'rxjs/operators';
+
 import 'rxjs/add/observable/of';
 import { Categorie } from './categorie/categorie.model';
 import { CategorieService } from './categorie/categorie.service';
@@ -23,16 +24,17 @@ export class CommandeComponent implements OnInit {
     totalTicket: number;
     ticket: Ticket = {} as Ticket;
     listeCategorie   = [];
+    firstElementCategorie;
     constructor(private router: Router, private _activatedRouter: ActivatedRoute,private _categorieService: CategorieService,private _produitSerice: ProduitService) { }
 
     ngOnInit(): void {
-        this.recuperationTouteLesProduits();
         this.remplireCategorie();
+        this.recuperationTouteLesProduitsParCategorie(this.firstElementCategorie.id);
     }
 
 
-    recuperationTouteLesProduits() {
-        this._produitSerice.getAllProduitByUser().subscribe(data => {
+    recuperationTouteLesProduitsParCategorie(idCategorie) {
+        this._produitSerice.getAllProduitByUser(idCategorie).subscribe(data => {
             this.listMenu = data;
             console.log('liste menu ',this.listMenu);
         })
@@ -84,22 +86,18 @@ export class CommandeComponent implements OnInit {
     remplireCategorie() {
         //@see CategorieResolver {} ../../shared/services/resolver/categorie.resolver
         this.listeCategorie =  this._activatedRouter.snapshot.data['listeCategories'];
+        this.firstElementCategorie = this.listeCategorie[0];
+        console.log('firstElement',this.firstElementCategorie); 
     }
 
     getCategorie(event) {
-        this.recuperationTouteLesProduits();
+        this.recuperationTouteLesProduitsParCategorie(event.id);
         for (let index = 0; index < this.listeCategorie.length; index++) {
-            if(this.listeCategorie[index].id != event.id)
-            this.listeCategorie[index].active = false;
-        }
-        const array = new Array();
-        this.listMenu.forEach(element => {
-            if(element.idCategorie == event.id){
-                array.push(element)
+            if(this.listeCategorie[index].id != event.id) {
+                this.listeCategorie[index].active = false;
             }
-        });
-        this.listMenu = new Array();
-        this.listMenu = array;
+        }
+        
     }
 
 }
