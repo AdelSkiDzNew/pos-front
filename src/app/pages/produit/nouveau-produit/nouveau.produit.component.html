@@ -1,5 +1,6 @@
 <div class="card card-block animated fadeIn row">
         <div class="col-md-6" [ngClass]="{'col-md-6': file != undefined, 'col-md-12': file == undefined}">
+          <p style="color: red;text-align: center;" *ngIf="errorsServer !== ''">{{errorsServer}}</p>
           <form #nouveauProduitForm="ngForm" [formGroup]="settingsForm" (ngSubmit)="submitForm();">
           <card cardTitle="Informations sur le produit" isCollapse="true">
             <div class="form-group">

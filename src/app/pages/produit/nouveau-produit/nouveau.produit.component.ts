@@ -27,6 +27,7 @@ export class NouveauProduitComponent implements OnInit {
     errors: string;
     @ViewChild('nouveauProduitForm') profileForm: NgForm = new NgForm(null, null)
     listeCategie= [];
+    errorsServer: string;
     constructor(private formBuilder: FormBuilder,
                 private _produitService: ProduitService,
                 private _categorieService: CategorieService) {
@@ -77,6 +78,7 @@ export class NouveauProduitComponent implements OnInit {
             idUser: 0
         });
         this.errors = '';
+        this.errorsServer = '';
         this.file = undefined;
         this.url = '';
         this.nameFile = '';
@@ -89,7 +91,6 @@ export class NouveauProduitComponent implements OnInit {
             this.listeCategie = data;
         })
     }
-
     submitForm() {
         if (this.settingsForm.invalid) {
             return;
@@ -103,9 +104,10 @@ export class NouveauProduitComponent implements OnInit {
         this.produit.idUser = parseInt(localStorage.getItem('id')),
         this._produitService.saveOrUpdateProduit(this.produit, this.file)
             .subscribe((data) => {
-                console.log(data);
+                console.log('data',data);
             }, err => {
-                console.log(err);
+                this.errorsServer = err.error.message;
+                return;
             })
 
     }
