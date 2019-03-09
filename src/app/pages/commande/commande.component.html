@@ -5,7 +5,7 @@
 
 <div id="right-panel" class="right-panel col-lg-12 col-md-12 col-sm-12">
         <div class="content mt-3">                    
-            <div class="col-xl-4 col-lg-4">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12">
                 <section class="card">
                     <profile></profile>
                     <app-panier [selectedListeProducts]="selectedListeProducts" [totalTicket]="totalTicket" (removeProduit)="removeProduit($event);"></app-panier>
@@ -14,10 +14,10 @@
             </div>
 
             
-            <div class="col-xl-4 col-lg-4" *ngFor="let item of listMenu">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12" *ngFor="let item of listMenu">
                 <div class="card hov-pointer">
                     <div>
-                            <a (click)="selectedProduct(item)"><img style="width: 350px;height: 250px;" src="{{item.pathImage}}"></a>
+                            <a (click)="selectedProduct(item)"><img style="width: 100%;height: 250px;" src="{{item.pathImage}}"></a>
                     </div>
                     <div  style="text-align: center;background: #f5f2ed">
                             <p style="margin: 0px;padding: 10px">{{item.prixInitial}} DA</p>

@@ -41,6 +41,7 @@ export class CommandeComponent implements OnInit {
     }
 
     selectedProduct(item) {
+        this.playSound();
         this.totalTicket = 0;
         if (this.selectedListeProducts.has(item.idProduit)) {
             const copy = JSON.parse(JSON.stringify(item));
@@ -52,6 +53,13 @@ export class CommandeComponent implements OnInit {
         }
         this.calculateTotal(this.selectedListeProducts);
         window.scrollTo(0, 0);
+    }
+
+    playSound() {
+        let audio = new Audio();
+        audio.src = "../../../assets/button-37.wav";
+        audio.load();
+        audio.play();
     }
 
     calculateTotal(data: Map<number, any>) {

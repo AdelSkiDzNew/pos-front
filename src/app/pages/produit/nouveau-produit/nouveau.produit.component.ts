@@ -109,7 +109,6 @@ export class NouveauProduitComponent implements OnInit {
                 this.errorsServer = err.error.message;
                 return;
             })
-
     }
 
     // convenience getter for easy access to form fields

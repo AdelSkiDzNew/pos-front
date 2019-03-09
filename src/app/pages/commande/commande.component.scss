@@ -8,7 +8,12 @@
 	-webkit-transition: .3s ease-in-out;
 	transition: .3s ease-in-out;
 }
-.hov-pointer div:hover img {
-	-webkit-transform: scale(1.3);
-	transform: scale(1.3);
-}
+
+
+@media screen and (min-width: 1200px) {
+	.hov-pointer div:hover img {
+		-webkit-transform: scale(1.3);
+		transform: scale(1.3);
+	}
+  }
+  
