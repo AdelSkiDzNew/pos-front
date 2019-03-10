@@ -11,6 +11,7 @@ import { ProduitService } from '../produit/produit.service';
 import { ProfileUSer } from '../profile-user/profile-user.model';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client'
+import { Constant } from '../../shared/constants/constants';
 
 
 @Component({
@@ -120,7 +121,7 @@ export class CommandeComponent implements OnInit {
 
     // socket subscribe
   private ListeMessages : Array<any> = new Array();
-  private serverUrl = 'http://localhost:8080/socket'
+  private serverUrl = Constant.serverUrlSocket;
   private stompClient;
 
   initializeWebSocketConnection(){
@@ -128,11 +129,11 @@ export class CommandeComponent implements OnInit {
     this.stompClient = Stomp.over(ws);
     let that = this;
     this.stompClient.connect({}, function(frame) {
-    var url = ws._transport.url;
+    /*var url = ws._transport.url;
     url = url.replace("ws://http://localhost:8080/socket/",  "");
     url = url.replace("/websocket", "");
     url = url.replace(/^[0-9]+\//, "");
-    console.log("Your current session is: " + url);
+    console.log("Your current session is: " + url);*/
         that.stompClient.subscribe("/user/queue/specific-user/"+localStorage.getItem('id'), (message) => {
             if(message.body) {
             console.log('t',message.body);

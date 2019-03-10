@@ -12,6 +12,7 @@ export enum Constant{
     saveOrUpdateProduit='/produit/ajouterProduit',
     uplodeFileProduit = '/produit/telecharger',
     getAllProduitByUser = '/produit/getAllProduitByUser',
+    serverUrlSocket = '/socket',
     
 
 

@@ -2,6 +2,7 @@ import { Component, OnInit, OnChanges } from '@angular/core';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client'
 import * as $ from 'jquery'
+import { Constant } from '../../shared/constants/constants';
 
 
 @Component({
@@ -16,7 +17,7 @@ export class CommandeEnLigneComponent implements OnInit,OnChanges {
 
     ngOnInit(): void { }
 
-    private serverUrl = 'http://localhost:8080/socket'
+    private serverUrl = Constant.serverUrlSocket;
     private stompClient;
     messages   = [];
     
