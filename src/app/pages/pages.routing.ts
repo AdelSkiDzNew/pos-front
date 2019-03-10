@@ -3,6 +3,7 @@ import { PagesComponent } from './pages.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from '../shared/auth-guard/AuthGuard';
 import { CategorieResolver } from '../shared/services/resolver/categorie.resolver';
+import { CommandeEnLigneComponent } from './preparation-commande/post-commande.component';
 
 export const childRoutes: Routes = [
     {
@@ -14,6 +15,7 @@ export const childRoutes: Routes = [
         component: PagesComponent,
         children: [
             { path: '', redirectTo: 'index', pathMatch: 'full' },
+            { path: 'commande-en-ligne', component: CommandeEnLigneComponent},
             { path: 'index', loadChildren: './index/index.module#IndexModule' },
             { path: 'nouvelle-commande',
               canActivate: [AuthGuard],

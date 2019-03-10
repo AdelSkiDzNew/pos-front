@@ -10,6 +10,12 @@ export let MENU_ITEM = [
         icon: 'shopping-basket'
     },
     {
+        path: 'commande-en-ligne',
+        title: 'commande en préparation',
+        icon: 'shopping-basket'
+    }
+    ,
+    {
         path: 'produit',
         title: 'Produits',
         icon: 'cutlery',

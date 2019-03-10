@@ -10,6 +10,7 @@ import { PagesComponent } from './pages.component';
 import { LoginComponent } from './login/login.component';
 import { LoginService } from './login/login.service';
 import { FormsModule } from '@angular/forms';
+import { CommandeEnLigneComponent } from './preparation-commande/post-commande.component';
 
 @NgModule({
     imports: [
@@ -21,7 +22,8 @@ import { FormsModule } from '@angular/forms';
     ],
     declarations: [
         PagesComponent,
-        LoginComponent
+        LoginComponent,
+        CommandeEnLigneComponent
     ],
     providers :[
         LoginService

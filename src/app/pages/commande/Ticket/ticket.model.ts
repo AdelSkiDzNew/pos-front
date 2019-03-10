@@ -2,7 +2,7 @@
 export interface Ticket {
     idTicket: number;
     listeProducts: Map<number, any>;
-    numeroTicket: number;
+    numeroTicket: string;
     date: string;
     totalTicket: number;
 }

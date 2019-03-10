@@ -9,6 +9,9 @@ import { Categorie } from './categorie/categorie.model';
 import { CategorieService } from './categorie/categorie.service';
 import { ProduitService } from '../produit/produit.service';
 import { ProfileUSer } from '../profile-user/profile-user.model';
+import * as Stomp from 'stompjs';
+import * as SockJS from 'sockjs-client'
+
 
 @Component({
     selector: 'app-commande',
@@ -25,7 +28,10 @@ export class CommandeComponent implements OnInit {
     ticket: Ticket = {} as Ticket;
     listeCategorie   = [];
     firstElementCategorie;
-    constructor(private router: Router, private _activatedRouter: ActivatedRoute,private _categorieService: CategorieService,private _produitSerice: ProduitService) { }
+    count:number = 0;
+    constructor(private router: Router, private _activatedRouter: ActivatedRoute,private _categorieService: CategorieService,private _produitSerice: ProduitService) {
+        this.initializeWebSocketConnection();
+     }
 
     ngOnInit(): void {
         this.remplireCategorie();
@@ -74,21 +80,25 @@ export class CommandeComponent implements OnInit {
         this.totalTicket = event;
     }
     notifyTicket(event) {
+        this.count ++;
         this.ticket.date = Date.now().toString();
-        this.ticket.numeroTicket = 123333;
+        this.ticket.numeroTicket = this.incrementNumber();
         this.ticket.totalTicket = this.totalTicket;
         this.ticket.listeProducts = new Map<number, any>();
         this.ticket.listeProducts = this.selectedListeProducts;
+        
     }
 
     reset() {
         this.totalTicket = 0;
+        //this.count = 0;
         this.selectedListeProducts = new Map<number, any>();
     }
 
     imprimer(event) {
         this.reset();
         console.log('partent validation impression',event);
+        this.sendMessage();
     }
 
     remplireCategorie() {
@@ -107,5 +117,52 @@ export class CommandeComponent implements OnInit {
         }
         
     }
+
+    // socket subscribe
+  private ListeMessages : Array<any> = new Array();
+  private serverUrl = 'http://localhost:8080/socket'
+  private stompClient;
+
+  initializeWebSocketConnection(){
+    let ws = new SockJS(this.serverUrl);
+    this.stompClient = Stomp.over(ws);
+    let that = this;
+    this.stompClient.connect({}, function(frame) {
+    var url = ws._transport.url;
+    url = url.replace("ws://http://localhost:8080/socket/",  "");
+    url = url.replace("/websocket", "");
+    url = url.replace(/^[0-9]+\//, "");
+    console.log("Your current session is: " + url);
+        that.stompClient.subscribe("/user/queue/specific-user/"+localStorage.getItem('id'), (message) => {
+            if(message.body) {
+            console.log('t',message.body);
+            }
+        });
+    });
+  }
+
+
+  sendMessage(){
+    this.ListeMessages.push({numeroTicket:this.ticket.numeroTicket,statut:'en cours de préparation'}); 
+    let data :string = '';
+    //data = this.ticket.numeroTicket.toString() + '...................' + 'en cours de préparation';
+    this.stompClient.send("/app/user/queue/updates/"+localStorage.getItem('id') , {}, JSON.stringify(this.ListeMessages));
+  }
+  
+  incrementNumber(): string {
+    let value : string  = '';
+    if(this.count < 10) {
+       return  value = 'OOO'+this.count;
+    }
+    if(this.count >= 10 && this.count <100 ) {
+       return  value = 'OO'+this.count;
+    } 
+    if(this.count >= 100 && this.count < 1000) {
+       return value = 'O'+this.count;
+    }
+    if(this.count >= 1000) {
+       return value = ''+this.count;
+    }
+  }
 
 }
