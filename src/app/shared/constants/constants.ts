@@ -13,9 +13,12 @@ export enum Constant{
     uplodeFileProduit = '/produit/telecharger',
     getAllProduitByUser = '/produit/getAllProduitByUser',
     serverUrlSocket = '/socket',
+    getNextTicketForToDayAndUser = '/ticket/nextTicketForToDayAndUser',
+    saveOrUpdateCommande = '/commande/saveOrUpdateCommande',
     
 
 
     /**profile by Defeault */
-    userName="Adel",adresse="Cité du 20 août 1955",profession="développeur",nomRestaurant='مطعم زعيم الشام'
+    userName="Adel",adresse="Cité du 20 août 1955",profession="développeur",nomRestaurant='مطعم زعيم الشام',
+    statutEncoursDePreparation='En cours de préparation',statutTerminé = 'Préparation Terminée'
 }

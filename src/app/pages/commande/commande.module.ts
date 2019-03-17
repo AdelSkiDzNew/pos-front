@@ -10,6 +10,8 @@ import { ModalModule } from 'ngx-modal';
 import { CategorieComponent } from './categorie/categorie.component';
 import { LayoutModule } from '../../shared/layout.module';
 import { ProduitService } from '../produit/produit.service';
+import { TicketService } from './Ticket/ticket.service';
+import { CommandeService } from './commande.service';
 
 @NgModule({
     imports: [
@@ -28,7 +30,9 @@ import { ProduitService } from '../produit/produit.service';
         CategorieComponent
     ],
     providers : [
-        ProduitService
+        ProduitService,
+        TicketService,
+        CommandeService
     ]
 })
 export class CommandeModule { }

@@ -57,7 +57,7 @@ export class TicketComponent implements OnInit {
           localStorage.setItem('profile',JSON.stringify(this.profileUser));
         });
       }
-      this.notifyCommande.emit('validate commande');
+      this.notifyCommande.emit(this.ticket);
     }
     imprimer(modal) {
       modal.close();

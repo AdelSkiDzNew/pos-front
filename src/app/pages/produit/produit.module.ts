@@ -25,8 +25,7 @@ import { CategorieService } from '../commande/categorie/categorie.service';
         ListeProduitComponent
     ],
     providers : [
-        ProduitService,
-        CategorieService
+        ProduitService
     ]
 })
 export class ProduitModule { }

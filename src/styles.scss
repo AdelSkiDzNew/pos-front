@@ -50,3 +50,11 @@
     50% { opacity: 0.0; }
     100% { opacity: 1.0; }
 }
+
+// background en cours de préparation
+.en-cours-de-preparation {
+    background: linear-gradient(to top right,#fa5167,#fda09c)
+}
+.preparation-terminee {
+    background: linear-gradient(to top right, #16be9a, #42e697);
+}

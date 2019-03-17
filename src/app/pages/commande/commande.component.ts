@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Ticket } from './Ticket/ticket.model';
 import { Observable } from 'rxjs';
-import {  map,filter, first } from 'rxjs/operators';
+import { map, filter, first } from 'rxjs/operators';
 
 import 'rxjs/add/observable/of';
 import { Categorie } from './categorie/categorie.model';
@@ -12,6 +12,12 @@ import { ProfileUSer } from '../profile-user/profile-user.model';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client'
 import { Constant } from '../../shared/constants/constants';
+
+import { TicketService } from './Ticket/ticket.service';
+import { Commande } from './model/commande.model';
+import { TicketDto } from './model/ticketDto.model';
+import { InformationTicket } from './model/iformationTicket.model';
+import { CommandeService } from './commande.service';
 
 
 @Component({
@@ -27,12 +33,19 @@ export class CommandeComponent implements OnInit {
     selectedListeProducts = new Map<number, any>();
     totalTicket: number;
     ticket: Ticket = {} as Ticket;
-    listeCategorie   = [];
+    listeCategorie = [];
     firstElementCategorie;
-    count:number = 0;
-    constructor(private router: Router, private _activatedRouter: ActivatedRoute,private _categorieService: CategorieService,private _produitSerice: ProduitService) {
+    commande: Commande = {} as Commande;
+    informationTicket: InformationTicket = {} as InformationTicket;
+    ticketDto: TicketDto = {} as TicketDto;
+    constructor(private router: Router,
+                private _activatedRouter: ActivatedRoute,
+                private _ticketService: TicketService,
+                private _produitSerice: ProduitService,
+                private _commandeService: CommandeService
+            ) {
         this.initializeWebSocketConnection();
-     }
+    }
 
     ngOnInit(): void {
         this.remplireCategorie();
@@ -43,7 +56,7 @@ export class CommandeComponent implements OnInit {
     recuperationTouteLesProduitsParCategorie(idCategorie) {
         this._produitSerice.getAllProduitByUser(idCategorie).subscribe(data => {
             this.listMenu = data;
-            console.log('liste menu ',this.listMenu);
+            console.log('liste menu ', this.listMenu);
         })
     }
 
@@ -81,13 +94,12 @@ export class CommandeComponent implements OnInit {
         this.totalTicket = event;
     }
     notifyTicket(event) {
-        this.count ++;
         this.ticket.date = Date.now().toString();
-        this.ticket.numeroTicket = this.incrementNumber();
+        //this.ticket.numeroTicket = this.incrementNumber();
         this.ticket.totalTicket = this.totalTicket;
         this.ticket.listeProducts = new Map<number, any>();
         this.ticket.listeProducts = this.selectedListeProducts;
-        
+        this.getNextTicketForToDayAndUser();
     }
 
     reset() {
@@ -96,74 +108,98 @@ export class CommandeComponent implements OnInit {
         this.selectedListeProducts = new Map<number, any>();
     }
 
-    imprimer(event) {
-        this.reset();
-        console.log('partent validation impression',event);
-        this.sendMessage();
-    }
 
     remplireCategorie() {
         //@see CategorieResolver {} ../../shared/services/resolver/categorie.resolver
-        this.listeCategorie =  this._activatedRouter.snapshot.data['listeCategories'];
+        this.listeCategorie = this._activatedRouter.snapshot.data['listeCategories'];
         this.firstElementCategorie = this.listeCategorie[0];
-        console.log('firstElement',this.firstElementCategorie); 
+        console.log('firstElement', this.firstElementCategorie);
     }
 
     getCategorie(event) {
         this.recuperationTouteLesProduitsParCategorie(event.id);
         for (let index = 0; index < this.listeCategorie.length; index++) {
-            if(this.listeCategorie[index].id != event.id) {
+            if (this.listeCategorie[index].id != event.id) {
                 this.listeCategorie[index].active = false;
             }
         }
-        
+
     }
 
-    // socket subscribe
-  private ListeMessages : Array<any> = new Array();
-  private serverUrl = Constant.serverUrlSocket;
-  private stompClient;
-
-  initializeWebSocketConnection(){
-    let ws = new SockJS(this.serverUrl);
-    this.stompClient = Stomp.over(ws);
-    let that = this;
-    this.stompClient.connect({}, function(frame) {
-    /*var url = ws._transport.url;
-    url = url.replace("ws://http://localhost:8080/socket/",  "");
-    url = url.replace("/websocket", "");
-    url = url.replace(/^[0-9]+\//, "");
-    console.log("Your current session is: " + url);*/
-        that.stompClient.subscribe("/user/queue/specific-user/"+localStorage.getItem('id'), (message) => {
-            if(message.body) {
-            console.log('t',message.body);
-            }
+    // cette methode permet de récupérer le prochain ticket par User, de la journée
+    // elle permet aussi de construir la commande
+    getNextTicketForToDayAndUser() {
+        this._ticketService.getNextTicketForToDayAndUser().pipe(
+            map(ticket => {
+                return ticket.numeroTicket;
+            })
+        ).subscribe((numeroTicket) => {
+            this.construirCommande(numeroTicket);
         });
-    });
-  }
+    }
+    // cette commande permet de construire la commande
+    construirCommande(numeroTicket) {
+        this.commande = {} as Commande;
+        this.commande.idUser = parseInt(localStorage.getItem('id'));
+        this.commande.statut = Constant.statutEncoursDePreparation;
+        this.ticketDto = {} as TicketDto;
+        this.ticketDto.dateDeCreation = Date.now().toString();
+        this.ticketDto.numeroTicket = this.ticket.numeroTicket = numeroTicket;
+        this.ticketDto.totalCommandeHT = this.totalTicket / 1.2;
+        this.ticketDto.totalCommandeTTC= this.totalTicket;
+        this.commande.ticketDto = this.ticketDto;
+        this.commande.informationTicketDtos = new Array<InformationTicket>();
+        for (const [key, value] of this.selectedListeProducts) {
+             this.informationTicket = {} as InformationTicket;
+             this.informationTicket.idProduit = value.idProduit;
+             this.informationTicket.quantite = value.quantite;
+             this.informationTicket.montantHT = value.prixToTal / 1.2;
+             this.informationTicket.montantTTC = value.prixToTal;
+             this.commande.informationTicketDtos.push(this.informationTicket);
+        }
+        console.log(this.commande);
+
+    }
+    // permet d'imprimer et valider et d'enregistrer la commande 
+    // et l'envoyé au tunnel socket
+    imprimer(event) {
+        this.reset();
+        console.log('partent validation impression', event);
+        //enregister la commande 
+        this.saveOrUpdateCommande();
+    }
+
+    // permet d'enregistrer la commande 
+    // elle retourne un tbaleau de commande par 40 minutes
+    // toutes les commandes moins de 40 minutes seront pas recupérés
+    saveOrUpdateCommande() {
+        this._commandeService.saveOrUpdateCommande(this.commande,true)
+        .subscribe((data) => {
+            localStorage.setItem('data',JSON.stringify(data));
+            this.sendMessage(data);
+        });
+    }
+
+    private serverUrl = Constant.serverUrlSocket;
+    private stompClient;
+
+    initializeWebSocketConnection() {
+        let ws = new SockJS(this.serverUrl);
+        this.stompClient = Stomp.over(ws);
+        let that = this;
+        this.stompClient.connect({}, function (frame) {
+            that.stompClient.subscribe("/user/queue/specific-user/" + localStorage.getItem('id'), (message) => {
+                if (message.body) {
+                    //console.log('t',message.body);
+                }
+            });
+        });
+    }
 
 
-  sendMessage(){
-    this.ListeMessages.push({numeroTicket:this.ticket.numeroTicket,statut:'en cours de préparation'}); 
-    let data :string = '';
-    //data = this.ticket.numeroTicket.toString() + '...................' + 'en cours de préparation';
-    this.stompClient.send("/app/user/queue/updates/"+localStorage.getItem('id') , {}, JSON.stringify(this.ListeMessages));
-  }
-  
-  incrementNumber(): string {
-    let value : string  = '';
-    if(this.count < 10) {
-       return  value = 'OOO'+this.count;
+    sendMessage(data) {
+        this.stompClient.send("/app/user/queue/updates/" + localStorage.getItem('id'), {}, JSON.stringify(data));
     }
-    if(this.count >= 10 && this.count <100 ) {
-       return  value = 'OO'+this.count;
-    } 
-    if(this.count >= 100 && this.count < 1000) {
-       return value = 'O'+this.count;
-    }
-    if(this.count >= 1000) {
-       return value = ''+this.count;
-    }
-  }
+
 
 }
