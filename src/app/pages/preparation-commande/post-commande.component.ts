@@ -6,6 +6,7 @@ import { Constant } from '../../shared/constants/constants';
 import { Observable } from 'rxjs';
 import {map} from 'rxjs/operators';
 import { CategorieService } from '../commande/categorie/categorie.service';
+import { SocketService } from '../../shared/services/socket.service';
 
 
 @Component({
@@ -15,53 +16,33 @@ import { CategorieService } from '../commande/categorie/categorie.service';
 })
 export class CommandeEnLigneComponent implements OnInit,OnChanges {
 
-    
-    constructor() { 
-        this.initializeWebSocketConnection();
-        this.initMessage();
+    private stompClient: any;
+    constructor(private _socketService: SocketService) { 
+        this.stompClient  = this._socketService.initializeWebSocketConnection(this.stompClient);
+        
+        setTimeout(() => {
+            if(this.stompClient.connected) {
+                this.initMessage();
+            }
+        }, 10000);
+        
     }
 
     ngOnInit(): void { 
        
     }
-
-    private serverUrl = Constant.serverUrlSocket;
-    private stompClient: any;
-    private  ws :any;
-    messages   = [];
     
-    initializeWebSocketConnection(){
-            this.ws = new SockJS(this.serverUrl);
-            this.stompClient = Stomp.over(this.ws);
-            let that = this;
-            this.stompClient.connect({}, function(frame) {
-            //frame.body = localStorage.getItem('data');
-            //console.log('frame body',frame.body);
-            that.stompClient.subscribe("/user/queue/specific-user/"+localStorage.getItem('id'), (message) => {
-                console.log('subscribe ',message.body);
-                if(message.body) {
-                        var data = new Array();
-                        data = JSON.parse(message.body);
-                        $('.chat').empty();
-                        for( let i in data) {
-                            $(".chat").append("<div class='card "+data[i].cssClass+"'"+"style='margin-bottom: 3px!important;color:black;fond-weight:bold;font-size: 24px;padding: 5px!important;'><div class='card-header'>"+data[i].numeroTicket+"<span class='blink_me' style='float: right;color:black'>"+data[i].statut+"</span></div></div>") 
-                        }
-                        
-                }
-            });
-        },function (message) {
-            console.log('message disconnect '+ message);
-        });
-      }
+    
+    
 
       ngOnChanges() {
           console.log("salut adel le comonenet a bien été chargé");
       }
 
       initMessage() {
-        setTimeout(() => {
+        /*setTimeout(() => {*/
             this.stompClient.send("/app/user/queue/updates/" + localStorage.getItem('id'), {}, localStorage.getItem('data'));
-        }, 10000);
+       /* }, 10000);*/
       }
       
 }

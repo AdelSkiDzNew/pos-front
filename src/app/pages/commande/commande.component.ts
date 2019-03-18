@@ -18,6 +18,7 @@ import { Commande } from './model/commande.model';
 import { TicketDto } from './model/ticketDto.model';
 import { InformationTicket } from './model/iformationTicket.model';
 import { CommandeService } from './commande.service';
+import { SocketService } from '../../shared/services/socket.service';
 
 
 @Component({
@@ -38,13 +39,15 @@ export class CommandeComponent implements OnInit {
     commande: Commande = {} as Commande;
     informationTicket: InformationTicket = {} as InformationTicket;
     ticketDto: TicketDto = {} as TicketDto;
+    private stompClient;
     constructor(private router: Router,
                 private _activatedRouter: ActivatedRoute,
                 private _ticketService: TicketService,
                 private _produitSerice: ProduitService,
-                private _commandeService: CommandeService
+                private _commandeService: CommandeService,
+                private _socketService: SocketService
             ) {
-        this.initializeWebSocketConnection();
+        this.stompClient = this._socketService.initializeWebSocketConnection(this.stompClient);
     }
 
     ngOnInit(): void {
@@ -179,22 +182,7 @@ export class CommandeComponent implements OnInit {
             this.sendMessage(data);
         });
     }
-
-    private serverUrl = Constant.serverUrlSocket;
-    private stompClient;
-
-    initializeWebSocketConnection() {
-        let ws = new SockJS(this.serverUrl);
-        this.stompClient = Stomp.over(ws);
-        let that = this;
-        this.stompClient.connect({}, function (frame) {
-            that.stompClient.subscribe("/user/queue/specific-user/" + localStorage.getItem('id'), (message) => {
-                if (message.body) {
-                    //console.log('t',message.body);
-                }
-            });
-        });
-    }
+    
 
 
     sendMessage(data) {

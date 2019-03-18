@@ -179,3 +179,16 @@
         display: none;
     }
 }
+
+@media (max-width:810px) {
+    .collapse-menu {
+        left: 178px;
+    }
+}
+
+
+@media (max-width:722px) {
+    .search-group {
+        display: none;
+    }
+}

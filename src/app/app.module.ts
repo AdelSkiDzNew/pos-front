@@ -12,6 +12,7 @@ import { ApiService } from './shared/services/api.service';
 import { ProfileUserService } from './pages/profile-user/profile-user.service';
 import { CategorieResolver } from './shared/services/resolver/categorie.resolver';
 import { CategorieService } from './pages/commande/categorie/categorie.service';
+import { SocketService } from './shared/services/socket.service';
 
 
 
@@ -34,7 +35,8 @@ import { CategorieService } from './pages/commande/categorie/categorie.service';
     ApiService,
     ProfileUserService,
     CategorieResolver,
-    CategorieService
+    CategorieService,
+    SocketService
   ],
   bootstrap: [AppComponent]
 })
